@@ -1,0 +1,382 @@
+/* ============================================================
+   Theme variables
+   ============================================================ */
+:root {
+  --bg:         #0b0e14;
+  --fg:         #e8eef6;
+  --muted:      #8a94a6;
+  --card:       rgba(255,255,255,.055);
+  --card-hover: rgba(255,255,255,.1);
+  --border:     rgba(255,255,255,.1);
+  --accent:     #6aa2ff;
+  --tooltip:    #1c2230;
+  --tooltip-fg: #e8eef6;
+  --radius:     14px;
+}
+
+[data-theme="light"] {
+  --bg:         #f4f6fb;
+  --fg:         #16202e;
+  --muted:      #61708a;
+  --card:       rgba(255,255,255,.8);
+  --card-hover: #ffffff;
+  --border:     rgba(20,30,50,.12);
+  --accent:     #2f6fe0;
+  --tooltip:    #16202e;
+  --tooltip-fg: #f4f6fb;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 64px 32px 80px;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  transition: background .2s, color .2s;
+}
+
+#app {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   Alignment
+   ============================================================ */
+body[data-alignment="centered"] .group h2,
+body[data-alignment="centered"] .group-links {
+  justify-content: center;
+  text-align: center;
+}
+body[data-alignment="centered"] .group h2 { text-align: center; }
+
+body[data-alignment="left"] .group h2,
+body[data-alignment="left"] .group-links {
+  justify-content: flex-start;
+  text-align: left;
+}
+body[data-alignment="left"] .group h2 { text-align: left; }
+
+/* ============================================================
+   Groups
+   ============================================================ */
+.group {
+  margin-bottom: 44px;
+}
+
+.group h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+  margin: 0 0 16px;
+  font-weight: 600;
+}
+
+.group-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ============================================================
+   Bookmark tiles
+   ============================================================ */
+.bookmark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px 10px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--fg);
+  text-decoration: none;
+  transition: background .15s, transform .15s, border-color .15s;
+  min-width: 130px;
+}
+
+.bookmark:hover {
+  background: var(--card-hover);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.bookmark .icon {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(127,127,127,.14);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.bookmark .icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.bookmark .name {
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* hover description tooltip */
+.bookmark .desc {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--tooltip);
+  color: var(--tooltip-fg);
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 7px 11px;
+  border-radius: 8px;
+  white-space: nowrap;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s, transform .15s;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  z-index: 10;
+}
+
+.bookmark:hover .desc {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================================
+   Empty state
+   ============================================================ */
+.empty {
+  text-align: center;
+  padding: 100px 20px;
+  color: var(--muted);
+}
+
+.empty p {
+  font-size: 15px;
+  margin: 0 0 20px;
+}
+
+.empty button {
+  font: inherit;
+  font-size: 14px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--fg);
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+
+.empty button:hover {
+  background: var(--card-hover);
+  border-color: var(--accent);
+}
+
+.empty .hint {
+  margin-top: 28px;
+  font-size: 12px;
+  opacity: .6;
+}
+
+/* ============================================================
+   Drag & drop overlay
+   ============================================================ */
+#dropzone {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 20px;
+  z-index: 100;
+  border: 3px dashed var(--accent);
+}
+
+#dropzone.active {
+  display: grid;
+}
+
+/* ============================================================
+   Top-left load button
+   ============================================================ */
+.load-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 50;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--fg);
+
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background .15s, border-color .15s, transform .1s;
+}
+
+.load-btn:hover {
+  background: var(--card-hover);
+  border-color: var(--accent);
+}
+
+.load-btn:active {
+  transform: scale(.97);
+}
+
+.load-btn svg {
+  opacity: .8;
+}
+
+/* ============================================================
+   Layout: vertical — groups become columns, tiles stack inside
+   ============================================================ */
+body[data-layout="vertical"] #app {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 56px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+body[data-layout="vertical"][data-alignment="left"] #app {
+  justify-content: flex-start;
+}
+
+body[data-layout="vertical"] .group {
+  margin-bottom: 0;
+}
+
+body[data-layout="vertical"] .group-links {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+body[data-layout="vertical"] .bookmark {
+  min-width: 200px;
+}
+
+/* ============================================================
+   Search bar
+   ============================================================ */
+[hidden] { display: none !important; }
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  max-width: 620px;
+  margin: 0 auto 48px;
+  padding: 0 8px 0 20px;
+  height: 54px;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--muted);
+
+  backdrop-filter: blur(8px);
+  transition: border-color .15s, background .15s, box-shadow .15s;
+}
+
+.search:focus-within {
+  background: var(--card-hover);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(106,162,255,.16);
+}
+
+.search-icon { flex: none; opacity: .7; }
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: 15px;
+}
+
+.search input::placeholder { color: var(--muted); opacity: .8; }
+
+/* ---- provider dropdown ---- */
+.provider-wrap {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+}
+
+.provider {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: 6px 26px 6px 12px;
+  height: 38px;
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg);
+
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  outline: none;
+
+  transition: background .15s, border-color .15s;
+}
+
+.provider:hover { background: var(--card-hover); border-color: var(--accent); }
+.provider:focus { border-color: var(--accent); }
+
+/* options inherit OS styling; force readable colors where supported */
+.provider option {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.provider-wrap .chevron {
+  position: absolute;
+  right: 10px;
+  pointer-events: none;
+  opacity: .6;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark" data-alignment="centered">
+
+  <button id="loadBtnTop" class="load-btn" title="Load a bookmarks.json file">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    <span>Load bookmarks</span>
+  </button>
+
+  <form id="searchForm" class="search" autocomplete="off" hidden>
+  <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
+       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="7"/>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </svg>
+
+  <input id="searchInput" type="text" placeholder="Search…" spellcheck="false">
+
+  <div class="provider-wrap">
+    <select id="searchProvider" class="provider" aria-label="Search provider"></select>
+    <svg class="chevron" viewBox="0 0 24 24" width="12" height="12" fill="none"
+         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </div>
+</form>
+
+  <div id="app"></div>
+  <div id="dropzone">Drop your bookmarks.json</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
