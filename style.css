@@ -39,7 +39,7 @@
   --card:       rgba(255,255,255,.04);
   --card-hover: rgba(255,255,255,.08);
   --border:     rgba(255,255,255,.08);
-  --accent:     #58a6ff;
+  --accent:     #b60000;
   --tooltip:    #0d0d0d;
   --tooltip-fg: #e6edf3;
 }
@@ -129,6 +129,14 @@ body[data-alignment="left"] .group-links {
 }
 body[data-alignment="left"] .group h2 { text-align: left; }
 
+body[data-alignment="right"] .group h2,
+body[data-alignment="right"] .group-links {
+  justify-content: flex-end;
+  text-align: right;
+}
+body[data-alignment="right"] .group h2 { text-align: right; }
+
+
 /* ============================================================
    Groups
    ============================================================ */
@@ -158,15 +166,19 @@ body[data-alignment="left"] .group h2 { text-align: left; }
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 16px 10px 10px;
+  gap: calc(10px * var(--link-scale, 1));
+  padding: calc(10px * var(--link-scale, 1))
+           calc(16px * var(--link-scale, 1))
+           calc(10px * var(--link-scale, 1))
+           calc(10px * var(--link-scale, 1));
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--card);
   color: var(--fg);
   text-decoration: none;
   transition: background .15s, transform .15s, border-color .15s;
-  min-width: 130px;
+  min-width: 0;
+  width: var(--link-width, auto);
 }
 
 .bookmark:hover {
@@ -176,15 +188,15 @@ body[data-alignment="left"] .group h2 { text-align: left; }
 }
 
 .bookmark .icon {
-  width: 28px;
-  height: 28px;
+  width: calc(28px * var(--link-scale, 1));
+  height: calc(28px * var(--link-scale, 1));
   flex: none;
   display: grid;
   place-items: center;
   border-radius: 8px;
   overflow: hidden;
   background: rgba(127,127,127,.14);
-  font-size: 13px;
+  font-size: calc(13px * var(--link-scale, 1));
   font-weight: 600;
   color: var(--muted);
 }
@@ -193,11 +205,11 @@ body[data-alignment="left"] .group h2 { text-align: left; }
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 4px;
+  padding: calc(4px * var(--link-scale, 1));
 }
 
 .bookmark .name {
-  font-size: 14px;
+  font-size: calc(14px * var(--link-scale, 1));
   white-space: nowrap;
 }
 
@@ -345,7 +357,7 @@ body[data-layout="vertical"][data-alignment="left"] #app {
 body[data-layout="vertical"] .group {
   margin-bottom: 0;
 }
-
+  
 body[data-layout="vertical"] .group-links {
   flex-direction: column;
   align-items: stretch;
@@ -353,6 +365,62 @@ body[data-layout="vertical"] .group-links {
 
 body[data-layout="vertical"] .bookmark {
   min-width: 200px;
+}
+
+body[data-layout="vertical"][data-alignment="right"] #app {
+  justify-content: flex-end;
+}
+
+/* ============================================================
+   Layout: stacked — groups stack, tiles stack inside
+   ============================================================ */
+body[data-layout="stacked"] #app {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 480px;   /* narrower feels better single-column */
+}
+
+body[data-layout="stacked"] .group {
+  margin-bottom: 0;
+}
+
+body[data-layout="stacked"] .group-links {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+body[data-layout="stacked"][data-alignment="right"] .group-links {
+  align-items: flex-end;
+}
+
+body[data-layout="stacked"][data-alignment="left"] .group-links {
+  align-items: flex-start;
+}
+
+body[data-layout="stacked"][data-alignment="centered"] .group-links {
+  align-items: center;
+}
+
+body[data-layout="stacked"] .bookmark {
+  width: var(--link-width, 100%);
+  min-width: 0;
+}
+
+/* alignment variants */
+body[data-layout="stacked"][data-alignment="centered"] #app {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body[data-layout="stacked"][data-alignment="left"] #app {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+body[data-layout="stacked"][data-alignment="right"] #app {
+  margin-left: auto;
+  margin-right: 0;
 }
 
 /* ============================================================
@@ -382,7 +450,7 @@ body[data-layout="vertical"] .bookmark {
 .search:focus-within {
   background: var(--card-hover);
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(106,162,255,.16);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 .search-icon { flex: none; opacity: .7; }
@@ -445,4 +513,52 @@ body[data-layout="vertical"] .bookmark {
   right: 10px;
   pointer-events: none;
   opacity: .6;
+}
+
+/* ============================================================
+   Background: image + video
+   ============================================================ */
+body { isolation: isolate; }
+
+body.has-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+
+  background-image:    var(--bg-image, none);
+  background-size:     var(--bg-size, cover);
+  background-position: var(--bg-position, center);
+  background-repeat:   no-repeat;
+
+  filter: blur(var(--bg-blur, 0px));
+  transform: scale(1.06);   /* hides blur bleed at the edges */
+
+  pointer-events: none;
+}
+
+#bg-video {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+
+  width: 100vw;
+  height: 100vh;
+
+  object-fit: var(--bg-object-fit, cover);
+  object-position: var(--bg-position, center);
+
+  filter: blur(var(--bg-blur, 0px));
+  transform: scale(1.06);
+  pointer-events: none;
+}
+
+body.has-bg::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+
+  background: rgba(0, 0, 0, var(--bg-dim, 0));
+  pointer-events: none;
 }

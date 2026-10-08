@@ -9,14 +9,116 @@ const STORE = "homepage.config.v1";
 const DEFAULT_SETTINGS = {
   theme: "dark",
   alignment: "centered",
-  layout: "horizontal",   // "horizontal" | "vertical"
+  layout: "horizontal",
 };
+
+let appliedCustomVars = [];
 
 function applySettings(settings = {}) {
   const s = Object.assign({}, DEFAULT_SETTINGS, settings);
-  document.body.dataset.theme = s.theme;
+
   document.body.dataset.alignment = s.alignment;
   document.body.dataset.layout = s.layout;
+  
+  const pct = Number(s.linkScale);
+  document.body.style.setProperty("--link-scale", (pct > 0 ? pct / 100 : 1));
+
+  const w = Number(s.linkWidth);
+  if (w > 0) {
+    document.body.style.setProperty("--link-width", w + "px");
+  } else {
+    document.body.style.removeProperty("--link-width");
+  }
+
+
+  if (s.theme === "custom" && s.customTheme && typeof s.customTheme === "object") {
+    document.body.dataset.theme = "custom";
+    applyCustomTheme(s.customTheme);
+  } else {
+    document.body.dataset.theme = s.theme || "dark";
+    clearCustomTheme();
+  }
+
+  applyBackground(s.background);
+}
+
+/* ============================================================
+   Background
+   ============================================================ */
+let currentBgVideo = null;
+
+function normalizeBgImage(v) {
+  if (!v) return "";
+  const trimmed = String(v).trim();
+  if (/^(url|linear-gradient|radial-gradient|conic-gradient|image-set)\(/i.test(trimmed)) {
+    return trimmed;
+  }
+  return 'url("' + trimmed.replace(/"/g, '\\"') + '")';
+}
+
+function applyBackground(bg) {
+  document.body.classList.remove("has-bg");
+  ["--bg-image", "--bg-blur", "--bg-dim", "--bg-size", "--bg-position", "--bg-object-fit"]
+    .forEach(function (v) { document.body.style.removeProperty(v); });
+
+  if (currentBgVideo) {
+    currentBgVideo.pause();
+    currentBgVideo.removeAttribute("src");
+    currentBgVideo.load();
+    currentBgVideo.remove();
+    currentBgVideo = null;
+  }
+
+  if (!bg || (!bg.image && !bg.video)) return;
+
+  document.body.classList.add("has-bg");
+
+  if (bg.image) {
+    document.body.style.setProperty("--bg-image", normalizeBgImage(bg.image));
+  }
+  document.body.style.setProperty("--bg-blur",       (Number(bg.blur) || 0) + "px");
+  document.body.style.setProperty("--bg-dim",        Number(bg.dim)  || 0);
+  document.body.style.setProperty("--bg-size",       bg.size     || "cover");
+  document.body.style.setProperty("--bg-position",   bg.position || "center");
+  document.body.style.setProperty("--bg-object-fit", bg.size     || "cover");
+
+  if (bg.video) injectBgVideo(bg.video);
+}
+
+function injectBgVideo(src) {
+  const v = document.createElement("video");
+  v.id = "bg-video";
+  v.src = src;
+  v.muted = true;
+  v.loop = true;
+  v.autoplay = true;
+  v.playsInline = true;
+  v.setAttribute("muted", "");
+  v.setAttribute("playsinline", "");
+  v.setAttribute("preload", "auto");
+
+  document.body.appendChild(v);
+  currentBgVideo = v;
+
+  const p = v.play();
+  if (p && p.catch) p.catch(function () {});
+}
+
+
+function applyCustomTheme(theme) {
+  clearCustomTheme();
+  Object.keys(theme).forEach(function (key) {
+    const varName = key.indexOf("--") === 0 ? key : "--" + key;
+    document.body.style.setProperty(varName, theme[key]);
+    appliedCustomVars.push(varName);
+  });
+}
+
+function clearCustomTheme() {
+  appliedCustomVars.forEach(function (v) {
+    document.body.style.removeProperty(v);
+  });
+  appliedCustomVars = [];
 }
 
 /* ============================================================
