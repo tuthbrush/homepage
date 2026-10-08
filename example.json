@@ -1,0 +1,29 @@
+{
+  "bookmarks": {
+    "Example Group": {
+      "Example Site Favicon": {
+        "link": "https://youtube.com",
+        "description": "youtube is a video streaming platform",
+        "favicons": true
+      },
+      "Example Site No Favicon": {
+        "link": "https://google.com",
+        "description": "google is the most popular search engine",
+        "favicons": false,
+        "icon": "example_icons/google.png"
+      }
+    }
+  },
+  "settings": {
+    "theme": "dark",
+    "alignment": "centered",
+    "layout": "vertical"
+  },
+  "search": {
+    "enabled": true,
+    "default": "Google",
+    "providers": {
+      "Google": "https://www.google.com/search?q="
+    }
+  }
+}
