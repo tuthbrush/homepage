@@ -34,11 +34,11 @@ i've tried my best to keep this project to just the most essential features base
 
 More throughly
 
-#### **Groups**
+### **Groups**
 
 you can add as many groups as you like, as of right now no options to add icons to them (sorry).
 
-#### **Icons**
+### **Icons**
 
 you can add links to a group with a:
 
@@ -48,15 +48,15 @@ you can add links to a group with a:
 
 and icons are either availble thru **favicons** or **local file**
 
-#### **Themes**
+### **Themes**
 
 there are multiple themes to choose from, and i will be adding many more, everything is listed in a doc.md file.
 
-#### **Search bar**
+### **Search bar**
 
 There is a search bar which is customizable to add a query from your favourite search engine.
 
-#### **Easy JSON customization**
+### **Easy JSON customization**
 
 Thanks to the "Import JSON" function there is no need to edit that pesky html which we all hate! Everything is configurable via a JSON file which you import, the website will keep it until you import another so you don't have to always upload the configuation.
 ## JSON documentation
