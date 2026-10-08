@@ -1,29 +1,45 @@
 {
   "bookmarks": {
-    "Example Group": {
-      "Example Site Favicon": {
+    "Social": {
+      "YouTube": {
         "link": "https://youtube.com",
-        "description": "youtube is a video streaming platform",
+        "description": "Videos",
         "favicons": true
       },
-      "Example Site No Favicon": {
-        "link": "https://google.com",
-        "description": "google is the most popular search engine",
+      "Gmail": {
+        "link": "https://mail.google.com",
         "favicons": false,
-        "icon": "example_icons/google.png"
+        "icon": "icons/gmail.png"
+      }
+    },
+    "Dev": {
+      "GitHub": {
+        "link": "https://github.com",
+        "description": "Where the code lives",
+        "favicons": true
       }
     }
   },
+
   "settings": {
-    "theme": "dark",
+    "theme": "catppuccin",
     "alignment": "centered",
-    "layout": "vertical"
+    "layout": "vertical",
+    "linkScale": 100,
+    "linkWidth": 200,
+    "background": {
+      "image": "wallpapers/mountain.jpg",
+      "dim": 0.4,
+      "blur": 4
+    }
   },
+
   "search": {
     "enabled": true,
     "default": "Google",
     "providers": {
-      "Google": "https://www.google.com/search?q="
+      "Google": "https://www.google.com/search?q=",
+      "Brave":  "https://search.brave.com/search?q="
     }
   }
 }
