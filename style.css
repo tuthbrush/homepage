@@ -14,6 +14,9 @@
   --radius:     14px;
 }
 
+/* ============================================================
+   Theme: light
+   ============================================================ */
 [data-theme="light"] {
   --bg:         #f4f6fb;
   --fg:         #16202e;
@@ -24,6 +27,69 @@
   --accent:     #2f6fe0;
   --tooltip:    #16202e;
   --tooltip-fg: #f4f6fb;
+}
+
+/* ============================================================
+   Theme: OLED (true black)
+   ============================================================ */
+[data-theme="oled"] {
+  --bg:         #000000;
+  --fg:         #e6edf3;
+  --muted:      #7d8590;
+  --card:       rgba(255,255,255,.04);
+  --card-hover: rgba(255,255,255,.08);
+  --border:     rgba(255,255,255,.08);
+  --accent:     #58a6ff;
+  --tooltip:    #0d0d0d;
+  --tooltip-fg: #e6edf3;
+}
+
+/* ============================================================
+   Theme: Catppuccin Mocha
+   https://catppuccin.com/palette
+   ============================================================ */
+[data-theme="catppuccin"] {
+  --bg:         #1e1e2e;
+  --fg:         #cdd6f4;
+  --muted:      #a6adc8;
+  --card:       rgba(255,255,255,.04);
+  --card-hover: #313244;
+  --border:     #313244;
+  --accent:     #cba6f7;   /* mauve */
+  --tooltip:    #181825;
+  --tooltip-fg: #cdd6f4;
+}
+
+/* ============================================================
+   Theme: Nord
+   https://www.nordtheme.com/
+   ============================================================ */
+[data-theme="nord"] {
+  --bg:         #2e3440;
+  --fg:         #eceff4;
+  --muted:      #7b88a1;
+  --card:       rgba(255,255,255,.04);
+  --card-hover: #3b4252;
+  --border:     #3b4252;
+  --accent:     #88c0d0;   /* nord8 frost */
+  --tooltip:    #3b4252;
+  --tooltip-fg: #eceff4;
+}
+
+/* ============================================================
+   Theme: Tokyo Night
+   https://github.com/enkia/tokyo-night-vscode-theme
+   ============================================================ */
+[data-theme="tokyonight"] {
+  --bg:         #1a1b26;
+  --fg:         #c0caf5;
+  --muted:      #565f89;
+  --card:       rgba(255,255,255,.04);
+  --card-hover: #1f2335;
+  --border:     #292e42;
+  --accent:     #7aa2f7;
+  --tooltip:    #16161e;
+  --tooltip-fg: #c0caf5;
 }
 
 /* ============================================================

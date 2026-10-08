@@ -279,7 +279,7 @@ function setupSearch(cfg) {
 
     const engine = providers[select.value];
     if (!engine) return;
-    window.location.href = engine + encodeURIComponent(q);
+    window.top.location.href = engine + encodeURIComponent(q);
   });
 
   // show now that it's populated
